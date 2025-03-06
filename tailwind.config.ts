@@ -98,7 +98,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  // plugins: [require("tailwindcss-animate")],
   // safelist: ["backdrop-blur-[2px]"],
 };
 export default config;

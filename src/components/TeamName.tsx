@@ -20,7 +20,7 @@ export default function TeamName({
         width={25}
         alt='Star Icon'
       />
-      <div className={`ml-2 ${position === 'left' ? '' : 'mr-2'}`}>
+      <div className={`truncate ml-2 ${position === 'left' ? '' : 'mr-2'}`}>
         <span className='font-semibold text-white text-sm md:text-base'>{name}</span>
       </div>
     </div>

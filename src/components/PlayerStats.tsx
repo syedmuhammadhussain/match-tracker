@@ -30,7 +30,7 @@ export default function PlayerStats({ team }: { team: Team }) {
                 height={20}
                 className='w-7 h-7'
               />
-              <span className='font-semibold text-gray-100 text-xs md:text-base'>
+              <span className='font-semibold text-gray-100 text-xs md:text-base truncate'>
                 {player.username}
               </span>
             </div>

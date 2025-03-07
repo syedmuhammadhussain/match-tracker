@@ -1,22 +1,16 @@
 'use client'
 
-// ** Third Components
+import { Inter } from 'next/font/google'
 import useSWR from 'swr'
-
-// ** Reusable Components
 import RefreshButton from './RefreshButton'
 import ErrorMessage from './ErrorMessage'
-import TeamStatus from './TeamStatus'
-import TeamName from './TeamName'
+import DropDown from './DropDown'
+import MatchAccordionItem from './MatchAccordionItem'
+import { Match, MatchListClientProps } from '@/types/match-tracker.types'
 
-// ** Types
-import {
-  MatchListClientProps,
-  MatchResponseData,
-} from '@/types/match-tracker.types'
+const inter = Inter({ subsets: ['latin'] })
 
-// ** fetch reponse
-const fetcher = async (url: string): Promise<MatchResponseData> => {
+const fetcher = async (url: string) => {
   const res = await fetch(url, { cache: 'no-store' })
   if (!res.ok) throw new Error('Network response was not ok')
   return res.json()
@@ -25,42 +19,39 @@ const fetcher = async (url: string): Promise<MatchResponseData> => {
 export default function MatchListClient({
   fallbackData,
 }: MatchListClientProps) {
-  const { data, error, isLoading, mutate } = useSWR<MatchResponseData>(
+  const { data, error, isLoading, mutate } = useSWR(
     `${process.env.NEXT_PUBLIC_BASEURL}/fronttemp`,
     fetcher,
     { fallbackData, revalidateOnFocus: false }
   )
 
   return (
-    <>
-      <div className='flex justify-between align-center'>
-        <h1 className='text-3xl font-bold text-center'>Match Tracker</h1>
-        <RefreshButton mutate={mutate} isLoading={isLoading} />
-      </div>
-      <div className='bg-white shadow rounded p-4 mt-4'>
-        {error && <ErrorMessage error={true} message={error.message} />}
+    <div
+      className='min-h-screen bg-gray-900 text-white'
+      style={{ backgroundColor: '#06080C' }}
+    >
+      <div className='max-w-full mx-auto p-10'>
+        <div className='flex justify-between items-center mb-8'>
+          <div className='flex items-center gap-4'>
+            <h1 className='text-3xl font-bold italic'>Match Tracker</h1>
+            <DropDown />
+          </div>
+          <div className={`flex items-center gap-4 ${inter.className}`}>
+            {error && <ErrorMessage error={true} message={error.message} />}
+            <RefreshButton mutate={mutate} isLoading={isLoading} />
+          </div>
+        </div>
 
-        {data?.data.matches && data.data.matches.length > 0 ? (
-          <ul>
-            {data.data.matches.map((match, index) => (
-              <li
-                key={index}
-                className={`border-gray-200 py-3 ${
-                  index === data.data.matches.length - 1 ? '' : 'border-b'
-                }`}
-              >
-                <div className='flex justify-between items-center'>
-                  <TeamName name={match.awayTeam.name} position='left' />
-                  <TeamStatus {...match} />
-                  <TeamName name={match.homeTeam.name} position='right' />
-                </div>
-              </li>
+        {data?.data.matches?.length ? (
+          <ul className={`space-y-4 ${inter.className}`}>
+            {data.data.matches.map((match: Match, index: number) => (
+              <MatchAccordionItem key={index} match={match} />
             ))}
           </ul>
         ) : (
-          <p className='text-center text-gray-600'>No matches found.</p>
+          <p className='text-center text-gray-400'>No matches found.</p>
         )}
       </div>
-    </>
+    </div>
   )
 }

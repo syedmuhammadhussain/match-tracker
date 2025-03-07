@@ -17,7 +17,7 @@ export default function TeamStatus(match: Match) {
 
   return (
     <div className='text-center space-y-2'>
-      <span>
+      <span className="text-white">
         {match.awayTeam.points} : {match.homeTeam.points}
       </span>
       {lowerStatus && (

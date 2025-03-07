@@ -12,10 +12,7 @@ export default async function HomePage() {
   const data: MatchResponseData = await getMatches()
 
   return (
-    <div
-      className='min-h-screen bg-gray-800 p-10'
-      style={{ backgroundColor: '#171717' }}
-    >
+    <div className='min-h-screen p-0 md:p-10 bg-[#171717]'>
       <div className='max-w-full mx-auto'>
         <MatchListClient fallbackData={data} />
       </div>

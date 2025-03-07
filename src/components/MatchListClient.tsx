@@ -1,11 +1,21 @@
 'use client'
 
+// ** React Imports
+import { useState } from 'react'
+
+// ** Fonts
 import { Inter } from 'next/font/google'
+
+// ** Third Components
 import useSWR from 'swr'
+
+// ** Reusable Components
 import RefreshButton from './RefreshButton'
 import ErrorMessage from './ErrorMessage'
 import DropDown from './DropDown'
 import MatchAccordionItem from './MatchAccordionItem'
+
+// ** Types
 import { Match, MatchListClientProps } from '@/types/match-tracker.types'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -19,37 +29,54 @@ const fetcher = async (url: string) => {
 export default function MatchListClient({
   fallbackData,
 }: MatchListClientProps) {
+  const [selectedStatus, setSelectedStatus] = useState<string>('')
+
   const { data, error, isLoading, mutate } = useSWR(
     `${process.env.NEXT_PUBLIC_BASEURL}/fronttemp`,
     fetcher,
     { fallbackData, revalidateOnFocus: false }
   )
 
+  // Filter matches based on selected status
+  const filteredMatches = data?.data.matches?.filter((match: Match) => {
+    if (selectedStatus === '') return true
+    return match.status.toLowerCase() === selectedStatus.toLowerCase()
+  })
+
+  const handleRefresh = () => {
+    setSelectedStatus('') // Reset dropdown to default.
+    mutate()
+  }
+
   return (
-    <div
-      className='min-h-screen bg-gray-900 text-white'
-      style={{ backgroundColor: '#06080C' }}
-    >
-      <div className='max-w-full mx-auto p-10'>
-        <div className='flex justify-between items-center mb-8'>
-          <div className='flex items-center gap-4'>
-            <h1 className='text-3xl font-bold italic'>Match Tracker</h1>
-            <DropDown />
+    <div className='min-h-screen text-white bg-[#06080C] rounded'>
+      <div className='max-w-full mx-auto px-4 md:p-10'>
+        <div className='flex flex-wrap justify-between text-center md:items-center mb-8'>
+          <div className='w-full md:w-auto flex flex-wrap items-center gap-4 mb-3 md:mb-0'>
+            <h1 className='w-full md:w-auto text-3xl font-bold italic md:text-4xl lg:text-5xl'>
+              Match Tracker
+            </h1>
+            <DropDown
+              selectedStatus={selectedStatus}
+              onStatusChange={setSelectedStatus}
+            />
           </div>
-          <div className={`flex items-center gap-4 ${inter.className}`}>
+          <div
+            className={`flex w-full md:w-auto flex-wrap items-center gap-4 ${inter.className}`}
+          >
             {error && <ErrorMessage error={true} message={error.message} />}
-            <RefreshButton mutate={mutate} isLoading={isLoading} />
+            <RefreshButton mutate={handleRefresh} isLoading={isLoading} />
           </div>
         </div>
 
-        {data?.data.matches?.length ? (
+        {filteredMatches?.length ? (
           <ul className={`space-y-4 ${inter.className}`}>
-            {data.data.matches.map((match: Match, index: number) => (
+            {filteredMatches.map((match: Match, index: number) => (
               <MatchAccordionItem key={index} match={match} />
             ))}
           </ul>
         ) : (
-          <p className='text-center text-gray-400'>No matches found.</p>
+          <p className='bg-[#101318] rounded text-center text-gray-400 p-4'>No records found.</p>
         )}
       </div>
     </div>

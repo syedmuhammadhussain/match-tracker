@@ -21,7 +21,7 @@ export default function TeamName({
         alt='Star Icon'
       />
       <div className={`ml-2 ${position === 'left' ? '' : 'mr-2'}`}>
-        <span className='font-semibold text-white'>{name}</span>
+        <span className='font-semibold text-white text-sm md:text-base'>{name}</span>
       </div>
     </div>
   )

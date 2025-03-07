@@ -20,17 +20,17 @@ export default function PlayerStats({ team }: { team: Team }) {
         {team.players.map((player, index) => (
           <li
             key={index}
-            className='flex items-center justify-between bg-gray-800 rounded p-4'
-            style={{ backgroundColor: '#101318' }}
+            className='flex flex-wrap items-center justify-center md:justify-between rounded p-2 md:p-4 bg-[#101318]'
           >
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-2 mb-2 md:mb-0'>
               <Image
                 src='/icons/user.svg'
-                height={20}
-                width={20}
                 alt='Player Icon'
+                width={20}
+                height={20}
+                className='w-7 h-7'
               />
-              <span className='font-semibold text-gray-100'>
+              <span className='font-semibold text-gray-100 text-xs md:text-base'>
                 {player.username}
               </span>
             </div>
@@ -40,13 +40,12 @@ export default function PlayerStats({ team }: { team: Team }) {
           </li>
         ))}
       </ul>
-      <div
-        className='mt-4 flex justify-between bg-gray-800 rounded p-4'
-        style={{ backgroundColor: '#101318' }}
-      >
+      <div className='mt-4 flex justify-between rounded p-4 bg-[#101318]'>
         <div className='text-sm'>
           <span className='text-gray-500'>Points:</span>
-          <strong className='ml-2 font-medium text-white'>+{team.points}</strong>
+          <strong className='ml-2 font-medium text-white'>
+            +{team.points}
+          </strong>
         </div>
         <div className='text-sm'>
           <span className='text-gray-500'>Place:</span>
@@ -54,7 +53,9 @@ export default function PlayerStats({ team }: { team: Team }) {
         </div>
         <div className='text-sm'>
           <span className='text-gray-500'>Total Kills:</span>
-          <strong className='ml-2 font-medium text-white'>{team.total_kills}</strong>
+          <strong className='ml-2 font-medium text-white'>
+            {team.total_kills}
+          </strong>
         </div>
       </div>
     </div>

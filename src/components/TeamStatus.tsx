@@ -5,10 +5,10 @@ export default function TeamStatus(match: Match) {
   const lowerStatus = match.status?.toLowerCase() ?? ''
 
   const statusColorMap: Record<string, string> = {
-    finished: 'bg-red-500 text-white',
+    finished: 'bg-[#EB0237] text-white',
     ongoing: 'bg-yellow-500 text-black',
-    live: 'bg-gree-500 text-white',
-    scheduled: 'bg-orange-500 text-black',
+    live: 'bg-[#43AD28] text-white',
+    scheduled: 'bg-[#EB6402] text-black',
   }
 
   const defaultStyle = 'bg-gray-300 text-black'
@@ -17,12 +17,12 @@ export default function TeamStatus(match: Match) {
 
   return (
     <div className='text-center space-y-2'>
-      <span className="text-white">
+      <span className="text-white text-xs md:text-base">
         {match.awayTeam.points} : {match.homeTeam.points}
       </span>
       {lowerStatus && (
         <span
-          className={`flex items-center ${style} px-2 py-1 rounded-sm text-xs`}
+          className={`flex items-center ${style} px-2 py-1 rounded text-xs md:text-sm`}
         >
           {match.status}
         </span>

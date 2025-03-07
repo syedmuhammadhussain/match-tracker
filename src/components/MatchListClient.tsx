@@ -50,10 +50,10 @@ export default function MatchListClient({
 
   return (
     <div className='min-h-screen text-white bg-[#06080C] rounded'>
-      <div className='max-w-full mx-auto px-4 md:p-10 mt-2 md:mt-0'>
+      <div className='max-w-full mx-auto px-4 md:p-10'>
         <div className='flex flex-wrap justify-between text-center md:items-center mb-8'>
           <div className='w-full md:w-auto flex flex-wrap items-center gap-4 mb-3 md:mb-0'>
-            <h1 className='w-full md:w-auto text-3xl font-bold italic md:text-4xl lg:text-5xl'>
+            <h1 className='w-full md:w-auto text-3xl font-bold italic md:text-4xl lg:text-5xl mt-4 md:mt-0'>
               Match Tracker
             </h1>
             <DropDown
